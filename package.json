@@ -1,0 +1,9 @@
+{
+  "name": "udacity-project-one",
+  "version": "0.1.0",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-cssmin": "^0.13.0",
+    "grunt-responsive-images": "^0.1.6"
+  }
+}
