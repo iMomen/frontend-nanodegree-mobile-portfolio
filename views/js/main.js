@@ -398,6 +398,8 @@ var pizzaElementGenerator = function (i) {
     return pizzaContainer;
 };
 
+'use strict';
+
 // resizePizzas(size) is called when the slider in the "Our Pizzas" section of the website moves.
 var resizePizzas = function (size) {
     window.performance.mark("mark_start_resize"); // User Timing API function
@@ -457,7 +459,6 @@ var resizePizzas = function (size) {
         var newwidth = (pizzaElement[0].offsetWidth + dx) + 'px';
 
         for (var i = 0; i < pizzaListLength; i++) {
-
             pizzaElement[i].style.width = newwidth;
         }
     }
@@ -474,8 +475,8 @@ var resizePizzas = function (size) {
 window.performance.mark("mark_start_generating"); // collect timing data
 
 // This for-loop actually creates and appends all of the pizzas when the page loads
+var pizzasDiv = document.getElementById("randomPizzas");
 for (var i = 2; i < 100; i++) {
-    var pizzasDiv = document.getElementById("randomPizzas");
     pizzasDiv.appendChild(pizzaElementGenerator(i));
 }
 
@@ -508,8 +509,10 @@ function updatePositions() {
     window.performance.mark("mark_start_frame");
     var scrollPosition = document.body.scrollTop / 1250;
     var items = document.getElementsByClassName('mover');
-    for (var i = 0; i < items.length; i++) {
-        var phase = Math.sin(scrollPosition + (i % 5));
+    var itemsLength = items.length;
+    var phase;
+    for (var i = 0; i < itemsLength ; i++) {
+        phase = Math.sin(scrollPosition + (i % 5));
         items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
 
     }
@@ -531,15 +534,17 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function () {
     var cols = 8;
     var s = 256;
+    var elem;
+    var movingPizzas = document.getElementById('movingPizzas1');
     for (var i = 0; i < 35; i++) {
-        var elem = document.createElement('img');
+        elem = document.createElement('img');
         elem.className = 'mover';
         elem.src = "images/pizza.png";
         //    elem.style.height = "100px";
         //    elem.style.width = "73.333px";
         elem.basicLeft = (i % cols) * s;
         elem.style.top = (Math.floor(i / cols) * s) + 'px';
-        document.querySelector("#movingPizzas1").appendChild(elem);
+        movingPizzas.appendChild(elem);
     }
     updatePositions();
 });
