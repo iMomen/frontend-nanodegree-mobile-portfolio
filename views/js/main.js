@@ -1,3 +1,5 @@
+'use strict';
+
 /*
 Welcome to the 60fps project! Your goal is to make Cam's Pizzeria website run
 jank-free at 60 frames per second.
@@ -398,8 +400,6 @@ var pizzaElementGenerator = function (i) {
     return pizzaContainer;
 };
 
-'use strict';
-
 // resizePizzas(size) is called when the slider in the "Our Pizzas" section of the website moves.
 var resizePizzas = function (size) {
     window.performance.mark("mark_start_resize"); // User Timing API function
@@ -453,8 +453,11 @@ var resizePizzas = function (size) {
     // Iterates through pizza elements on the page and changes their widths
     function changePizzaSizes(size) {
 
-        var pizzaElement = document.getElementsByClassName("randomPizzaContainer");
-        var pizzaListLength = document.getElementsByClassName("randomPizzaContainer").length;
+        // Create local variables for elements and lenght of it's array
+        var pizzaElements = document.getElementsByClassName("randomPizzaContainer");
+        var pizzaListLength = pizzaElements.length;
+
+        // Move un-touched variables outside the loop on changePizzaSizes function
         var dx = determineDx(pizzaElement[0], size);
         var newwidth = (pizzaElement[0].offsetWidth + dx) + 'px';
 
@@ -512,10 +515,13 @@ function updatePositions() {
     var scrollPosition = document.body.scrollTop / 1250;
     var items = document.getElementsByClassName('mover');
     var itemsLength = items.length;
-    var phase;
-    for (var i = 0; i < itemsLength ; i++) {
-        phase = Math.sin(scrollPosition + (i % 5));
-        items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+    // Due to the mod 5 operator, there are only 5 different values for the phase so creating an array with the predicted values will be a good solution
+    var phase = [];
+    for (var i = 0; i < 5; i++) {
+        phase.push(Math.sin(scrollTop + i) * 100);
+    }
+    for (var i = 0; i < itemsLength; i++) {
+        items[i].style.left = items[i].basicLeft + 100 * phase[i%5] + 'px';
 
     }
 
@@ -538,14 +544,13 @@ document.addEventListener('DOMContentLoaded', function () {
     var s = 256;
     var elem;
     var movingPizzas = document.getElementById('movingPizzas1');
-    
+
     // Reduce background pizzas from 200 to 35
     for (var i = 0; i < 35; i++) {
         elem = document.createElement('img');
         elem.className = 'mover';
         elem.src = "images/pizza.png";
-        //    elem.style.height = "100px";
-        //    elem.style.width = "73.333px";
+        // Remove the .mover class styles from the js file and put it in a CSS file
         elem.basicLeft = (i % cols) * s;
         elem.style.top = (Math.floor(i / cols) * s) + 'px';
         movingPizzas.appendChild(elem);
