@@ -458,11 +458,11 @@ var resizePizzas = function (size) {
         var pizzaListLength = pizzaElements.length;
 
         // Move un-touched variables outside the loop on changePizzaSizes function
-        var dx = determineDx(pizzaElement[0], size);
-        var newwidth = (pizzaElement[0].offsetWidth + dx) + 'px';
+        var dx = determineDx(pizzaElements[0], size);
+        var newwidth = (pizzaElements[0].offsetWidth + dx) + 'px';
 
         for (var i = 0; i < pizzaListLength; i++) {
-            pizzaElement[i].style.width = newwidth;
+            pizzaElements[i].style.width = newwidth;
         }
     }
 
@@ -518,10 +518,10 @@ function updatePositions() {
     // Due to the mod 5 operator, there are only 5 different values for the phase so creating an array with the predicted values will be a good solution
     var phase = [];
     for (var i = 0; i < 5; i++) {
-        phase.push(Math.sin(scrollTop + i) * 100);
+        phase.push(Math.sin(scrollPosition + i) * 100);
     }
     for (var i = 0; i < itemsLength; i++) {
-        items[i].style.left = items[i].basicLeft + 100 * phase[i%5] + 'px';
+        items[i].style.left = items[i].basicLeft + phase[i%5] + 'px';
 
     }
 
