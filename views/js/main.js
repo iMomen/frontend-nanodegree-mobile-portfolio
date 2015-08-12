@@ -475,6 +475,8 @@ var resizePizzas = function (size) {
 window.performance.mark("mark_start_generating"); // collect timing data
 
 // This for-loop actually creates and appends all of the pizzas when the page loads
+
+// Create the variable " pizzasDiv " outside the loop to make only one DOM call
 var pizzasDiv = document.getElementById("randomPizzas");
 for (var i = 2; i < 100; i++) {
     pizzasDiv.appendChild(pizzaElementGenerator(i));
@@ -536,6 +538,8 @@ document.addEventListener('DOMContentLoaded', function () {
     var s = 256;
     var elem;
     var movingPizzas = document.getElementById('movingPizzas1');
+    
+    // Reduce background pizzas from 200 to 35
     for (var i = 0; i < 35; i++) {
         elem = document.createElement('img');
         elem.className = 'mover';
